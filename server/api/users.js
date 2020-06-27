@@ -1,17 +1,81 @@
-const router = require('express').Router()
-const {User} = require('../db/models')
-module.exports = router
+const graphql = require("graphql");
+const { User } = require("../db/models");
 
-router.get('/', async (req, res, next) => {
-  try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
-    })
-    res.json(users)
-  } catch (err) {
-    next(err)
-  }
-})
+const userType = new graphql.GraphQLObjectType({
+  name: "User",
+  fields: {
+    id: { type: graphql.GraphQLID },
+    email: { type: graphql.GraphQLString },
+    name: { type: graphql.GraphQLString },
+    password: { type: graphql.GraphQLString },
+  },
+});
+
+const queryType = new graphql.GraphQLObjectType({
+  name: "Query",
+  fields: {
+    user: {
+      type: userType,
+      args: {
+        id: { type: graphql.GraphQLID },
+      },
+      resolve: async (parent, args) => {
+        // code to get data from db
+        try {
+          const foundUser = await User.findOne({
+            where: { id: args.id },
+          });
+          return foundUser;
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    },
+    users: {
+      type: graphql.GraphQLList(userType),
+      resolve: async (parent, args) => {
+        // code to get data from db
+        try {
+          const users = await User.findAll();
+          return users;
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    },
+  },
+});
+
+const mutationType = new graphql.GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addUser: {
+      type: userType,
+      args: {
+        email: { type: graphql.GraphQLString },
+        name: { type: graphql.GraphQLString },
+        password: { type: graphql.GraphQLString },
+      },
+      async resolve(parent, args) {
+        try {
+          let user = new User({
+            email: args.email,
+            name: args.name,
+            password: args.password,
+          });
+          console.log("TEMPORARY NEW USER---->>>>>", user.data);
+          const created = await User.create(user.dataValues);
+          console.log("NEW USER CREATED", created);
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    },
+  },
+});
+
+const userSchema = new graphql.GraphQLSchema({
+  query: queryType,
+  mutation: mutationType,
+});
+module.exports = userSchema;

@@ -1,4 +1,6 @@
 const router = require('express').Router()
+// const graphqlHttp = require('express-graphql')
+// const {buildSchema} = require('graphql')
 module.exports = router
 
 router.use('/users', require('./users'))
@@ -8,3 +10,4 @@ router.use((req, res, next) => {
   error.status = 404
   next(error)
 })
+
