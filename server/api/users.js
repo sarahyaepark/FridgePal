@@ -58,14 +58,21 @@ const mutationType = new graphql.GraphQLObjectType({
       },
       async resolve(parent, args) {
         try {
-          let user = new User({
+          let attemptFind = await User.findOne({ 
+            where: { email: args.email }
+          })
+          if (attemptFind) {
+            return attemptFind
+          }
+          else {
+            let user = new User({
             email: args.email,
             name: args.name,
             password: args.password,
-          });
-          console.log("TEMPORARY NEW USER---->>>>>", user.data);
-          const created = await User.create(user.dataValues);
-          console.log("NEW USER CREATED", created);
+            });
+            const created = await User.create(user.dataValues);
+            return created
+          }
         } catch (err) {
           console.log(err);
         }

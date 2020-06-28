@@ -5,55 +5,55 @@ import { auth } from "../store";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-/**
- * COMPONENT
- */
+//apollo client set up
+// making the gql call
+
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div>
-      <h2>Email</h2>
-      <Form onSubmit={handleSubmit} name={name}>
-        <Form.Group controlId="formGridAddress1">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            name="email"
-            // value={this.state.email}
-            placeholder="awesome@email.com"
-            // onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
-        <br />
-        {displayName !== "Login" ? (
-          <Form.Group controlId="formGridAddress2">
-            <Form.Label>Name</Form.Label>
+      <div>
+        <h2>Email</h2>
+        <Form onSubmit={handleSubmit} name={name}>
+          <Form.Group controlId="formGridAddress1">
+            <Form.Label>Email</Form.Label>
             <Form.Control
-              name="userName"
-              // value={this.state.userName}
+              name="email"
+              // value={this.state.email}
+              placeholder="awesome@email.com"
               // onChange={this.handleChange}
-              placeholder="Sarah"
+              required
             />
           </Form.Group>
-        ) : null}
-        <br />
-        <Form.Group controlId="formGridCity">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            name="password"
-            // value={this.state.password}
-            placeholder="superSecretPass2"
-            // onChange={this.handleChange}
-            required
-          />
-        </Form.Group>
-        <Button id="tealButton" type="submit">
-          {displayName}
-        </Button>
-      </Form>
-      {/* <a href="/auth/google">{displayName} with Google</a> */}
-    </div>
+          <br />
+          {displayName !== "Login" ? (
+            <Form.Group controlId="formGridAddress2">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                name="userName"
+                // value={this.state.userName}
+                // onChange={this.handleChange}
+                placeholder="Sarah"
+              />
+            </Form.Group>
+          ) : null}
+          <br />
+          <Form.Group controlId="formGridCity">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              name="password"
+              // value={this.state.password}
+              placeholder="superSecretPass2"
+              // onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Button id="tealButton" type="submit">
+            {displayName}
+          </Button>
+        </Form>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
+      </div>
   );
 };
 
@@ -79,12 +79,19 @@ const mapDispatch = (dispatch) => {
       evt.preventDefault();
       const formName = evt.target.name;
       const email = evt.target.email.value;
-      const userName = evt.target.userName.value;
       const password = evt.target.password.value;
-      dispatch(auth(email, userName, password, formName));
+      if (evt.target.userName) {
+        const userName = evt.target.userName.value;
+        dispatch(auth(email, password, formName, userName));
+      }
+      else {
+        dispatch(auth(email, password, formName));
+      }
     },
   };
 };
+
+// export default graphql(postUser)(Authform)
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm);
 export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
