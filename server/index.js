@@ -12,7 +12,7 @@ const app = express();
 const socketio = require("socket.io");
 const graphqlHttp = require("express-graphql");
 // const { buildSchema } = require("graphql");
-const userSchema = require('./api/users')
+const schema = require('./api/users')
 module.exports = app;
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -68,7 +68,7 @@ const createApp = () => {
   app.use(passport.session());
 
   app.use('/api', graphqlHttp({
-    schema: userSchema,
+    schema: schema,
     graphiql: true
   }))
 

@@ -38,6 +38,7 @@ export const auth = (email, password, method, name) => async (dispatch) => {
     console.log('>>>>>>>>>>>',res.data.data.addUser)
     dispatch(getUser(res.data.data.addUser))
     dispatch(push('/home'))
+    // NEED TO ADD ERROR HANDLING
     console.log(res);
   } catch (authError) {
     // console.log(authError)

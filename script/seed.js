@@ -2,7 +2,7 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
-
+const {Ingredient} = require('../server/db/models')
 async function seed() {
   await db.sync({force:true})
   console.log('db synced!')
@@ -12,7 +12,18 @@ async function seed() {
     User.create({email: 'murphy@email.com', name: 'murphy', password: '123'})
   ])
 
-  console.log(`seeded ${users.length} users`)
+  const ingredients = await Promise.all([
+    Ingredient.create({
+      name: "banana",
+      userId: 1
+    }),
+    Ingredient.create({
+      name: "lemon",
+      userId: 2
+    })
+  ])
+
+  console.log(`seeded ${users.length} users and ${ingredients.length} ingredients`)
   console.log(`seeded successfully`)
 }
 

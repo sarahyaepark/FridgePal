@@ -111,6 +111,65 @@ const App = () => {
 
 /***/ }),
 
+/***/ "./client/components/AddIngredient.js":
+/*!********************************************!*\
+  !*** ./client/components/AddIngredient.js ***!
+  \********************************************/
+/*! exports provided: AddIngredient, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddIngredient", function() { return AddIngredient; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_ingredient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/ingredient */ "./client/store/ingredient.js");
+
+
+
+
+
+class AddIngredient extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    let ingredientName = event.target.ingredientName.value;
+    let id = this.props.id; // call thunk
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "What's in your fridge?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
+      controlId: "formInput"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Label, null, "Ingredient"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
+      type: "text",
+      name: "ingredientName",
+      placeholder: "Tomato..."
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      id: "tealButton",
+      size: "lg",
+      type: "submit"
+    }, "Add Ingredient")));
+  }
+
+}
+
+const mapState = state => {
+  return {
+    id: state.user.id
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapState)(AddIngredient));
+
+/***/ }),
+
 /***/ "./client/components/auth-form.js":
 /*!****************************************!*\
   !*** ./client/components/auth-form.js ***!
@@ -166,6 +225,7 @@ const AuthForm = props => {
   })) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Group, {
     controlId: "formGridCity"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Label, null, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Control, {
+    type: "password",
     name: "password" // value={this.state.password}
     ,
     placeholder: "superSecretPass2" // onChange={this.handleChange}
@@ -329,7 +389,7 @@ AuthForm.propTypes = {
 /*!************************************!*\
   !*** ./client/components/index.js ***!
   \************************************/
-/*! exports provided: Navbar, UserHome, Login, Signup */
+/*! exports provided: Navbar, UserHome, Login, Signup, AddIngredient */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -345,11 +405,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Signup", function() { return _auth_form__WEBPACK_IMPORTED_MODULE_2__["Signup"]; });
 
+/* harmony import */ var _AddIngredient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddIngredient */ "./client/components/AddIngredient.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AddIngredient", function() { return _AddIngredient__WEBPACK_IMPORTED_MODULE_3__["AddIngredient"]; });
+
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
+
 
 
  // export {Login, Signup} from './auth-form'
@@ -438,6 +502,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _AddIngredient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddIngredient */ "./client/components/AddIngredient.js");
+
 
 
 
@@ -449,7 +515,9 @@ const UserHome = props => {
   const {
     name
   } = props;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Welcome, ", name));
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Welcome, ", name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_3__["AddIngredient"], {
+    id: props.id
+  }));
 };
 /**
  * CONTAINER
@@ -457,6 +525,7 @@ const UserHome = props => {
 
 const mapState = state => {
   return {
+    id: state.user.id,
     email: state.user.email,
     name: state.user.name
   };
@@ -646,7 +715,7 @@ socket.on('connect', () => {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, auth, me, logout */
+/*! exports provided: default, auth, me, logout, fetchIngredients */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -658,11 +727,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user */ "./client/store/user.js");
+/* harmony import */ var _ingredient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ingredient */ "./client/store/ingredient.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["auth"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "me", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["me"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["logout"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["fetchIngredients"]; });
+
 
 
 
@@ -670,7 +743,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const reducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  user: _user__WEBPACK_IMPORTED_MODULE_4__["default"]
+  user: _user__WEBPACK_IMPORTED_MODULE_4__["default"],
+  ingredient: _ingredient__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 const middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
   collapsed: true
@@ -678,6 +752,92 @@ const middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__[
 const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, middleware);
 /* harmony default export */ __webpack_exports__["default"] = (store);
 
+
+
+/***/ }),
+
+/***/ "./client/store/ingredient.js":
+/*!************************************!*\
+  !*** ./client/store/ingredient.js ***!
+  \************************************/
+/*! exports provided: fetchIngredients, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return fetchIngredients; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../history */ "./client/history.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+
+
+
+/**
+ * ACTION TYPES
+ */
+
+const GET_INGREDIENTS = "GET_INGREDIENTS";
+const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
+/**
+ * ACTION CREATORS
+ */
+
+const getIngredients = ingredients => ({
+  type: GET_INGREDIENTS,
+  ingredients
+});
+
+const removeIngredient = () => ({
+  type: REMOVE_INGREDIENT
+});
+/**
+ * THUNK CREATORS
+ */
+
+
+const fetchIngredients = id => async dispatch => {
+  let res;
+
+  try {
+    res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `{user(id:${id}){ingredients{name}}}`
+    });
+    console.log('>>>>>>>>>>>', res); // dispatch(getIngredients())
+    // dispatch(push('/home'))
+    // NEED TO ADD ERROR HANDLING
+
+    console.log(res);
+  } catch (authError) {
+    // console.log(authError)
+    return dispatch(getIngredients({
+      error: authError
+    }));
+  } //   try {
+  //     dispatch(getIngredients(res.data.data.addUser));
+  //     history.push("/home");
+  //   } catch (dispatchOrHistoryErr) {
+  //     console.error(dispatchOrHistoryErr);
+  //   }
+
+};
+/**
+ * REDUCER
+ */
+
+let defaultState = {};
+/* harmony default export */ __webpack_exports__["default"] = (function (state = defaultState, action) {
+  switch (action.type) {
+    case GET_INGREDIENTS:
+      return action.ingredients;
+
+    case REMOVE_INGREDIENT:
+      return defaultState;
+
+    default:
+      return state;
+  }
+});
 
 /***/ }),
 
@@ -744,7 +904,8 @@ const auth = (email, password, method, name) => async dispatch => {
 
     console.log('>>>>>>>>>>>', res.data.data.addUser);
     dispatch(getUser(res.data.data.addUser));
-    dispatch(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_2__["push"])('/home'));
+    dispatch(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_2__["push"])('/home')); // NEED TO ADD ERROR HANDLING
+
     console.log(res);
   } catch (authError) {
     // console.log(authError)
