@@ -134,20 +134,86 @@ const AddIngredient = props => {
   const {
     handleSubmit
   } = props;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "What's in your fridge?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    onSubmit: handleSubmit
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "addIngredient"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    id: "addTitle"
+  }, "What's in your fridge?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    onSubmit: handleSubmit,
+    className: "addForm"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
     controlId: "formInput"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Label, null, "Ingredient"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
     type: "text",
     name: "ingredientName",
-    placeholder: "Tomato..."
+    placeholder: "Tomato...",
+    className: "addGrid"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    id: "tealButton",
+    id: "addButton",
     size: "lg",
     type: "submit"
   }, "Add Ingredient")));
 };
+
+/***/ }),
+
+/***/ "./client/components/Footer.js":
+/*!*************************************!*\
+  !*** ./client/components/Footer.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store */ "./client/store/index.js");
+
+
+
+
+
+
+const Footer = ({
+  handleClick,
+  isLoggedIn
+}) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "footer"
+}, isLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "footerContainer"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "footerItem"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+  to: "/home"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  src: "https://cdn.onlinewebfonts.com/svg/img_8727.png",
+  width: "40px",
+  height: "40px"
+}), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "My Fridge"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "footerItem"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+  to: "/recipes"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  src: "https://i.dlpng.com/static/png/1574788-kitchen-plate-spoon-fork-egg-recipe-comments-egg-and-spoon-png-980_850_preview.png",
+  width: "40px",
+  height: "35px"
+}), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Recipes"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "footerItem"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  href: "#",
+  onClick: handleClick
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  src: "https://cdn.iconscout.com/icon/free/png-256/logout-37-459247.png",
+  width: "40px",
+  height: "40px"
+}), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Logout")))) : null);
+
+/* harmony default export */ __webpack_exports__["default"] = (Footer);
 
 /***/ }),
 
@@ -170,14 +236,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let ingredientsLen = 0;
 class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   componentDidMount() {
-    let ingredients = this.props.ingredients;
+    let ingredients = this.props.ingredients; // if ingredients length when component mounts
+    // is greater than ingredients length before the component mounts
+    // then call fetch recipes
+    // else do nothing
 
     if (ingredients !== undefined) {
-      this.props.fetchRecipes(ingredients);
-    } //   console.log(this.props)
+      let ingredientsLen2 = ingredients.length;
 
+      if (ingredientsLen2 > ingredientsLen) {
+        this.props.fetchRecipes(ingredients);
+      }
+
+      ingredientsLen = ingredientsLen2;
+    }
   }
 
   mealTime() {
@@ -194,7 +269,30 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"));
+    console.log("rendering recipes...", this.props);
+    let recipes = this.props.recipes;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "recipesPage"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "recipesContainer"
+    }, recipes !== undefined ? recipes.map(recipe => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "recipe",
+        key: recipe.id
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: recipe.sourceUrl
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: recipe.imgUrl
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, recipe.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Uses:"), recipe.usedIngredients.map(ingredient => {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: ingredient.id
+        }, ingredient.name);
+      }));
+    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://i.pinimg.com/originals/ee/1d/08/ee1d081c5bdf966b058c1a6588e73e8a.gif",
+      alt: "loading...",
+      id: "loadingImg"
+    })));
   }
 
 }
@@ -251,37 +349,38 @@ const AuthForm = props => {
     handleSubmit,
     error
   } = props;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "authForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), name === "signup" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Sign Up") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Log In"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onSubmit: handleSubmit,
-    name: name
+    name: name,
+    className: "form"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Group, {
-    controlId: "formGridAddress1"
+    controlId: "formGridEmail"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Label, null, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Control, {
-    name: "email" // value={this.state.email}
-    ,
-    placeholder: "awesome@email.com" // onChange={this.handleChange}
-    ,
-    required: true
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), displayName !== "Login" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Group, {
-    controlId: "formGridAddress2"
+    name: "email",
+    placeholder: "awesome@email.com",
+    required: true,
+    className: "formGrid"
+  })), displayName !== "Login" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Group, {
+    controlId: "formGridName"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Label, null, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Control, {
-    name: "userName" // value={this.state.userName}
-    // onChange={this.handleChange}
-    ,
-    placeholder: "Sarah"
+    name: "userName",
+    placeholder: "Sarah",
+    className: "formGrid",
+    required: true
   })) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Group, {
-    controlId: "formGridCity"
+    controlId: "formGridPassword"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Label, null, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"].Control, {
     type: "password",
-    name: "password" // value={this.state.password}
-    ,
-    placeholder: "superSecretPass2" // onChange={this.handleChange}
-    ,
-    required: true
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    id: "tealButton",
+    name: "password",
+    placeholder: "superSecretPass2",
+    required: true,
+    className: "formGrid"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    id: "submitButton",
     type: "submit"
-  }, displayName)));
+  }, displayName))));
 };
 
 const mapLogin = state => {
@@ -331,104 +430,7 @@ AuthForm.propTypes = {
   displayName: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
   handleSubmit: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
   error: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object
-}; // <div>
-//   <form onSubmit={handleSubmit} name={name}>
-//     <div>
-//       <label htmlFor="email">
-//         <small>Email</small>
-//       </label>
-//       <input name="email" type="text" />
-//     </div>
-//     <div>
-//       <label htmlFor="password">
-//         <small>Password</small>
-//       </label>
-//       <input name="password" type="password" />
-//     </div>
-//     <div>
-//       <button type="submit">{displayName}</button>
-//     </div>
-//     {error && error.response && <div> {error.response.data} </div>}
-//   </form>
-//   <a href="/auth/google">{displayName} with Google</a>
-// </div>
-// class AuthForm extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = this.initialState();
-//     this.handleChange = this.handleChange.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-//   initialState() {
-//     return {
-//       email: "",
-//       name: "",
-//       password: "",
-//     };
-//   }
-//   handleChange(event) {
-//     this.setState({ [event.target.name]: event.target.value });
-//   }
-//   handleSubmit(event) {
-//     event.preventDefault();
-//     const email = this.state.email;
-//     const name = this.state.name;
-//     const password = this.state.password;
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <h2>Email</h2>
-//         <Form onSubmit={this.handleSubmit}>
-//           <Form.Group controlId="formGridAddress1">
-//             <Form.Label>Email</Form.Label>
-//             <Form.Control
-//               name="email"
-//               value={this.state.email}
-//               placeholder="awesomeGirl@email.com"
-//               onChange={this.handleChange}
-//               required
-//             />
-//           </Form.Group>
-//           <Form.Group controlId="formGridAddress2">
-//             <Form.Label>Name</Form.Label>
-//             <Form.Control
-//               name="name"
-//               value={this.state.name}
-//               onChange={this.handleChange}
-//               placeholder="Sarah"
-//             />
-//           </Form.Group>
-//           <Form.Group controlId="formGridCity">
-//             <Form.Label>Password</Form.Label>
-//             <Form.Control
-//               name="password"
-//               value={this.state.password}
-//               placeholder="superSecretPass2"
-//               onChange={this.handleChange}
-//               required
-//             />
-//           </Form.Group>
-//           <Button id="tealButton" type="submit" onSubmit={this.handleSubmit}>
-//             Submit
-//           </Button>
-//         </Form>
-//       </div>
-//     );
-//   }
-// }
-// const mapDispatchToProps = dispatch => ({
-//   attemptUpdateUser: userDetails => dispatch(attemptUpdateUser(userDetails))
-// })
-// export default connect(null, mapDispatchToProps)(AddressForm)
-
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
+};
 
 /***/ }),
 
@@ -436,7 +438,7 @@ AuthForm.propTypes = {
 /*!************************************!*\
   !*** ./client/components/index.js ***!
   \************************************/
-/*! exports provided: Navbar, UserHome, Login, Signup, AddIngredient, Recipes */
+/*! exports provided: Navbar, UserHome, Login, Signup, AddIngredient, Recipes, Footer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -458,11 +460,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Recipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Recipes */ "./client/components/Recipes.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Recipes", function() { return _Recipes__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
+/* harmony import */ var _Footer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Footer */ "./client/components/Footer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Footer", function() { return _Footer__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
+
 
 
 
@@ -496,18 +502,13 @@ __webpack_require__.r(__webpack_exports__);
 const Navbar = ({
   handleClick,
   isLoggedIn
-}) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "FridgePal"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, isLoggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
-  to: "/home"
-}, "Home"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-  href: "#",
-  onClick: handleClick
-}, "Logout"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
-  to: "/recipes"
-}, "Recipes")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+}) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  className: "navbar"
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "FridgePal"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, isLoggedIn ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
   to: "/login"
 }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
   to: "/signup"
-}, "Sign Up"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
+}, "Sign Up")))));
 /**
  * CONTAINER
  */
@@ -577,17 +578,32 @@ class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.props.fetchIngredients(userId);
   }
 
+  handleDelete(id) {
+    console.log("deleting ", id);
+    let userId = this.props.id;
+    this.props.deleteIngredient(id);
+    this.props.fetchIngredients(userId);
+  }
+
   render() {
     let {
       ingredients
     } = this.props;
-    console.log('rendering...', this.props.ingredients);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Welcome, ", this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"], {
+    console.log("rendering...", this.props.ingredients);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "ingredientsContainer"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      id: "welcome"
+    }, "Welcome, ", this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"], {
       handleSubmit: this.handleSubmit
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, ingredients !== undefined ? ingredients.map(ingredient => {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        key: ingredient.id
-      }, ingredient.name);
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "singlesContainer"
+    }, ingredients !== undefined ? ingredients.map(ingredient => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "singleIngredient",
+        key: ingredient.id,
+        onClick: () => this.handleDelete(ingredient.id)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, ingredient.name));
     }) : null));
   }
 
@@ -604,7 +620,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => ({
   fetchIngredients: id => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["fetchIngredients"])(id)),
-  newIngredient: (userId, name, quantity) => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["newIngredient"])(userId, name, quantity))
+  newIngredient: (userId, name, quantity) => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["newIngredient"])(userId, name, quantity)),
+  deleteIngredient: id => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["deleteIngredient"])(id))
 });
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapState, mapDispatch)(UserHome));
@@ -708,7 +725,7 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       isLoggedIn
     } = this.props;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
       path: "/login",
       component: _components__WEBPACK_IMPORTED_MODULE_4__["Login"]
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -722,6 +739,8 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       component: _components__WEBPACK_IMPORTED_MODULE_4__["Recipes"]
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
       component: _components__WEBPACK_IMPORTED_MODULE_4__["Login"]
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["Footer"], {
+      isLoggedIn: isLoggedIn
     }));
   }
 
@@ -787,7 +806,7 @@ socket.on('connect', () => {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, auth, me, logout, fetchIngredients, newIngredient, fetchRecipes */
+/*! exports provided: default, auth, me, logout, fetchRecipes, fetchIngredients, newIngredient, deleteIngredient */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -810,6 +829,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["fetchIngredients"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "newIngredient", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["newIngredient"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "deleteIngredient", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["deleteIngredient"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fetchRecipes", function() { return _recipe__WEBPACK_IMPORTED_MODULE_6__["fetchRecipes"]; });
 
@@ -840,13 +861,14 @@ const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer,
 /*!************************************!*\
   !*** ./client/store/ingredient.js ***!
   \************************************/
-/*! exports provided: fetchIngredients, newIngredient, default */
+/*! exports provided: fetchIngredients, newIngredient, deleteIngredient, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return fetchIngredients; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newIngredient", function() { return newIngredient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteIngredient", function() { return deleteIngredient; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../history */ "./client/history.js");
@@ -875,8 +897,9 @@ const addIngredients = ingredient => ({
   ingredient
 });
 
-const removeIngredient = () => ({
-  type: REMOVE_INGREDIENT
+const removeIngredient = id => ({
+  type: REMOVE_INGREDIENT,
+  id
 });
 /**
  * THUNK CREATORS
@@ -901,14 +924,25 @@ const fetchIngredients = id => async dispatch => {
 };
 const newIngredient = (userId, name, quantity) => async dispatch => {
   try {
-    let res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
-      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name}}`
+    let {
+      data
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name, id}}`
     });
-    console.log(">>>>******>>>>>>>", res); //   let ingredients = data.data.user.ingredients
-    //   dispatch(getIngredients(ingredients))
-    // NEED TO ADD ERROR HANDLING
+    console.log(">>>>******>>>>>>>", data);
   } catch (authError) {
     // console.log(authError)
+    return dispatch(getIngredients({
+      error: authError
+    }));
+  }
+};
+const deleteIngredient = id => async dispatch => {
+  try {
+    await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `mutation{deleteIngredient(id:${id}){name}}`
+    }); // dispatch(removeIngredient(id))
+  } catch (authError) {
     return dispatch(getIngredients({
       error: authError
     }));
@@ -926,8 +960,19 @@ let defaultState = {};
         ingredients: action.ingredients
       };
 
+    case ADD_INGREDIENT:
+      return { ...defaultState,
+        ingredients: [...defaultState, action.ingredient]
+      };
+
     case REMOVE_INGREDIENT:
-      return defaultState;
+      console.log(defaultState);
+
+      if (defaultState.ingredient.ingredients.find(item => item.id === action.id)) {
+        return [...defaultState.ingredient.ingredients.filter(item => item.id !== action.id)];
+      } else {
+        return defaultState;
+      }
 
     default:
       return state;
@@ -984,8 +1029,26 @@ const fetchRecipes = ingredients => async dispatch => {
       let link = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${Spoonacular_API_KEY}`);
       return link;
     });
-    let urls = await Promise.all(links); // console.log("SPOONACULAR>>>>>>> source links return", urls);
-    // dispatch(getRecipes(urls));
+    let urls = await Promise.all(links);
+    let sourceUrls = urls.map(url => {
+      return url.data.sourceUrl;
+    });
+    let recipeInfo = data.map(recipe => {
+      let tempRecipe = {
+        id: recipe.id,
+        imgUrl: recipe.image,
+        title: recipe.title,
+        usedIngredients: recipe.usedIngredients
+      };
+      return tempRecipe;
+    });
+
+    for (let i = 0; i < recipeInfo.length; i++) {
+      recipeInfo[i].sourceUrl = sourceUrls[i];
+    }
+
+    console.log("SPOONACULAR>>>>>>> source links return", recipeInfo);
+    dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({
       error: authError
@@ -1056,15 +1119,16 @@ const removeUser = () => ({
 
 const auth = (email, password, method, name) => async dispatch => {
   let res;
+  let cleanEmail = email.toLowerCase();
 
   try {
     if (name) {
       res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
-        query: `mutation {addUser(email: "${email}", name: "${name}", password: "${password}"), {id, name, email}}`
+        query: `mutation {addUser(email: "${cleanEmail}", name: "${name}", password: "${password}"), {id, name, email}}`
       });
     } else {
       res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
-        query: `mutation {addUser(email: "${email}", password: "${password}"), {id, name, email}}`
+        query: `mutation {addUser(email: "${cleanEmail}", password: "${password}"), {id, name, email}}`
       });
     }
 
@@ -71954,7 +72018,7 @@ if (hasSymbols()) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "97b4ae716ed8412699a0b94fca0d05f3";
+const Spoonacular_API_KEY = "e4e1b4d9259940119f44966cc5f6399d";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),

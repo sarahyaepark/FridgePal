@@ -32,8 +32,23 @@ export const fetchRecipes = (ingredients) => async (dispatch) => {
       return link;
     });
     let urls = await Promise.all(links);
-    // console.log("SPOONACULAR>>>>>>> source links return", urls);
-    // dispatch(getRecipes(urls));
+    let sourceUrls = urls.map((url) => {
+      return url.data.sourceUrl;
+    });
+    let recipeInfo = data.map((recipe) => {
+      let tempRecipe = {
+        id: recipe.id,
+        imgUrl: recipe.image,
+        title: recipe.title,
+        usedIngredients: recipe.usedIngredients,
+      };
+      return tempRecipe;
+    });
+    for (let i = 0; i < recipeInfo.length; i++) {
+      recipeInfo[i].sourceUrl = sourceUrls[i];
+    }
+    console.log("SPOONACULAR>>>>>>> source links return", recipeInfo);
+    dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({ error: authError }));
   }
