@@ -44,7 +44,6 @@ const queryType = new graphql.GraphQLObjectType({
               required: false
             }]
           });
-          console.log('>>>>>>>>>>>>',foundUser)
           return foundUser;
         } catch (err) {
           console.log(err);

@@ -35,7 +35,6 @@ export const auth = (email, password, method, name) => async (dispatch) => {
         query: `mutation {addUser(email: "${email}", password: "${password}"), {id, name, email}}`,
       });
     }
-    console.log('>>>>>>>>>>>',res.data.data.addUser)
     dispatch(getUser(res.data.data.addUser))
     dispatch(push('/home'))
     // NEED TO ADD ERROR HANDLING
@@ -58,7 +57,6 @@ export const me = (id) => async (dispatch) => {
     const res = await axios.post(`/api`, {
       query: `{user(id: ${id}), {id, name, email}}`,
     });
-    console.log("dfaskjfhdsalkfhjksalhfjkdsl",res.data)
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);

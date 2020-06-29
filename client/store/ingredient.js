@@ -1,17 +1,22 @@
 import axios from "axios";
 import history from "../history";
-import {push} from 'connected-react-router'
+import { push } from "connected-react-router";
 
 /**
  * ACTION TYPES
  */
 const GET_INGREDIENTS = "GET_INGREDIENTS";
+const ADD_INGREDIENT = "ADD_INGREDIENT";
 const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 
 /**
  * ACTION CREATORS
  */
-const getIngredients = (ingredients) => ({ type: GET_INGREDIENTS, ingredients });
+const getIngredients = (ingredients) => ({
+  type: GET_INGREDIENTS,
+  ingredients,
+});
+const addIngredients = (ingredient) => ({ type: ADD_INGREDIENT, ingredient });
 const removeIngredient = () => ({ type: REMOVE_INGREDIENT });
 
 /**
@@ -19,37 +24,42 @@ const removeIngredient = () => ({ type: REMOVE_INGREDIENT });
  */
 
 export const fetchIngredients = (id) => async (dispatch) => {
-  let res;
   try {
-      res = await axios.post(`/api`, {
-        query: `{user(id:${id}){ingredients{name}}}`,
-      });
-    console.log('>>>>>>>>>>>',res)
-    // dispatch(getIngredients())
-    // dispatch(push('/home'))
+    let { data } = await axios.post(`/api`, {
+      query: `{user(id:${id}){ingredients{name, id}}}`,
+    });
+    let ingredients = data.data.user.ingredients;
+    dispatch(getIngredients(ingredients));
     // NEED TO ADD ERROR HANDLING
-    console.log(res);
   } catch (authError) {
     // console.log(authError)
     return dispatch(getIngredients({ error: authError }));
   }
+};
 
-//   try {
-//     dispatch(getIngredients(res.data.data.addUser));
-//     history.push("/home");
-//   } catch (dispatchOrHistoryErr) {
-//     console.error(dispatchOrHistoryErr);
-//   }
+export const newIngredient = (userId, name, quantity) => async (dispatch) => {
+  try {
+    let res = await axios.post(`/api`, {
+      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name}}`,
+    });
+    console.log(">>>>******>>>>>>>", res);
+    //   let ingredients = data.data.user.ingredients
+    //   dispatch(getIngredients(ingredients))
+    // NEED TO ADD ERROR HANDLING
+  } catch (authError) {
+    // console.log(authError)
+    return dispatch(getIngredients({ error: authError }));
+  }
 };
 
 /**
  * REDUCER
  */
-let defaultState = {}
+let defaultState = {};
 export default function (state = defaultState, action) {
   switch (action.type) {
     case GET_INGREDIENTS:
-      return action.ingredients;
+      return { ...defaultState, ingredients: action.ingredients };
     case REMOVE_INGREDIENT:
       return defaultState;
     default:

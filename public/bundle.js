@@ -115,7 +115,7 @@ const App = () => {
 /*!********************************************!*\
   !*** ./client/components/AddIngredient.js ***!
   \********************************************/
-/*! exports provided: AddIngredient, default */
+/*! exports provided: AddIngredient */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -126,47 +126,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
 /* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _store_ingredient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/ingredient */ "./client/store/ingredient.js");
 
 
 
 
-
-class AddIngredient extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props);
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    let ingredientName = event.target.ingredientName.value;
-    let id = this.props.id; // call thunk
-  }
-
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "What's in your fridge?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
-      controlId: "formInput"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Label, null, "Ingredient"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
-      type: "text",
-      name: "ingredientName",
-      placeholder: "Tomato..."
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      id: "tealButton",
-      size: "lg",
-      type: "submit"
-    }, "Add Ingredient")));
-  }
-
-}
-
-const mapState = state => {
-  return {
-    id: state.user.id
-  };
+const AddIngredient = props => {
+  const {
+    handleSubmit
+  } = props;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "What's in your fridge?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    onSubmit: handleSubmit
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
+    controlId: "formInput"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Label, null, "Ingredient"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
+    type: "text",
+    name: "ingredientName",
+    placeholder: "Tomato..."
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    id: "tealButton",
+    size: "lg",
+    type: "submit"
+  }, "Add Ingredient")));
 };
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapState)(AddIngredient));
 
 /***/ }),
 
@@ -499,10 +480,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserHome", function() { return UserHome; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _AddIngredient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddIngredient */ "./client/components/AddIngredient.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _AddIngredient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddIngredient */ "./client/components/AddIngredient.js");
+/* harmony import */ var _store_ingredient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/ingredient */ "./client/store/ingredient.js");
 
 
 
@@ -511,34 +491,51 @@ __webpack_require__.r(__webpack_exports__);
  * COMPONENT
  */
 
-const UserHome = props => {
-  const {
-    name
-  } = props;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Welcome, ", name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_3__["AddIngredient"], {
-    id: props.id
-  }));
-};
-/**
- * CONTAINER
- */
+class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  componentDidMount() {
+    this.props.fetchIngredients(this.props.id);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    let userId = this.props.id;
+    let name = event.target.ingredientName.value;
+    this.props.newIngredient(userId, name);
+    this.props.fetchIngredients(userId);
+  }
+
+  render() {
+    let {
+      ingredients
+    } = this.props;
+    console.log('rendering...', this.props.ingredients);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Welcome, ", this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"], {
+      handleSubmit: this.handleSubmit
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, ingredients !== undefined ? ingredients.map(ingredient => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: ingredient.id
+      }, ingredient.name);
+    }) : null));
+  }
+
+}
 
 const mapState = state => {
   return {
     id: state.user.id,
     email: state.user.email,
-    name: state.user.name
+    name: state.user.name,
+    ingredients: state.ingredient.ingredients
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapState)(UserHome));
-/**
- * PROP TYPES
- */
+const mapDispatch = dispatch => ({
+  fetchIngredients: id => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["fetchIngredients"])(id)),
+  newIngredient: (userId, name, quantity) => dispatch(Object(_store_ingredient__WEBPACK_IMPORTED_MODULE_3__["newIngredient"])(userId, name, quantity))
+});
 
-UserHome.propTypes = {
-  email: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-};
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapState, mapDispatch)(UserHome));
 
 /***/ }),
 
@@ -715,7 +712,7 @@ socket.on('connect', () => {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, auth, me, logout, fetchIngredients */
+/*! exports provided: default, auth, me, logout, fetchIngredients, newIngredient */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -735,6 +732,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["logout"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["fetchIngredients"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "newIngredient", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["newIngredient"]; });
 
 
 
@@ -760,12 +759,13 @@ const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer,
 /*!************************************!*\
   !*** ./client/store/ingredient.js ***!
   \************************************/
-/*! exports provided: fetchIngredients, default */
+/*! exports provided: fetchIngredients, newIngredient, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchIngredients", function() { return fetchIngredients; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newIngredient", function() { return newIngredient; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../history */ "./client/history.js");
@@ -778,6 +778,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const GET_INGREDIENTS = "GET_INGREDIENTS";
+const ADD_INGREDIENT = "ADD_INGREDIENT";
 const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 /**
  * ACTION CREATORS
@@ -786,6 +787,11 @@ const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 const getIngredients = ingredients => ({
   type: GET_INGREDIENTS,
   ingredients
+});
+
+const addIngredients = ingredient => ({
+  type: ADD_INGREDIENT,
+  ingredient
 });
 
 const removeIngredient = () => ({
@@ -797,29 +803,35 @@ const removeIngredient = () => ({
 
 
 const fetchIngredients = id => async dispatch => {
-  let res;
-
   try {
-    res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
-      query: `{user(id:${id}){ingredients{name}}}`
+    let {
+      data
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `{user(id:${id}){ingredients{name, id}}}`
     });
-    console.log('>>>>>>>>>>>', res); // dispatch(getIngredients())
-    // dispatch(push('/home'))
-    // NEED TO ADD ERROR HANDLING
-
-    console.log(res);
+    let ingredients = data.data.user.ingredients;
+    dispatch(getIngredients(ingredients)); // NEED TO ADD ERROR HANDLING
   } catch (authError) {
     // console.log(authError)
     return dispatch(getIngredients({
       error: authError
     }));
-  } //   try {
-  //     dispatch(getIngredients(res.data.data.addUser));
-  //     history.push("/home");
-  //   } catch (dispatchOrHistoryErr) {
-  //     console.error(dispatchOrHistoryErr);
-  //   }
-
+  }
+};
+const newIngredient = (userId, name, quantity) => async dispatch => {
+  try {
+    let res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name}}`
+    });
+    console.log(">>>>******>>>>>>>", res); //   let ingredients = data.data.user.ingredients
+    //   dispatch(getIngredients(ingredients))
+    // NEED TO ADD ERROR HANDLING
+  } catch (authError) {
+    // console.log(authError)
+    return dispatch(getIngredients({
+      error: authError
+    }));
+  }
 };
 /**
  * REDUCER
@@ -829,7 +841,9 @@ let defaultState = {};
 /* harmony default export */ __webpack_exports__["default"] = (function (state = defaultState, action) {
   switch (action.type) {
     case GET_INGREDIENTS:
-      return action.ingredients;
+      return { ...defaultState,
+        ingredients: action.ingredients
+      };
 
     case REMOVE_INGREDIENT:
       return defaultState;
@@ -902,7 +916,6 @@ const auth = (email, password, method, name) => async dispatch => {
       });
     }
 
-    console.log('>>>>>>>>>>>', res.data.data.addUser);
     dispatch(getUser(res.data.data.addUser));
     dispatch(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_2__["push"])('/home')); // NEED TO ADD ERROR HANDLING
 
@@ -926,7 +939,6 @@ const me = id => async dispatch => {
     const res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
       query: `{user(id: ${id}), {id, name, email}}`
     });
-    console.log("dfaskjfhdsalkfhjksalhfjkdsl", res.data);
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -2976,7 +2988,7 @@ function noop() {}
 /*!*****************************************************!*\
   !*** ./node_modules/apollo-boost/lib/bundle.esm.js ***!
   \*****************************************************/
-/*! exports provided: HttpLink, gql, default, ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument */
+/*! exports provided: ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument, HttpLink, gql, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62319,7 +62331,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
