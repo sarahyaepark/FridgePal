@@ -151,6 +151,72 @@ const AddIngredient = props => {
 
 /***/ }),
 
+/***/ "./client/components/Recipes.js":
+/*!**************************************!*\
+  !*** ./client/components/Recipes.js ***!
+  \**************************************/
+/*! exports provided: Recipes, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Recipes", function() { return Recipes; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var _store_recipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/recipe */ "./client/store/recipe.js");
+
+
+
+
+class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  componentDidMount() {
+    let ingredients = this.props.ingredients;
+
+    if (ingredients !== undefined) {
+      this.props.fetchRecipes(ingredients);
+    } //   console.log(this.props)
+
+  }
+
+  mealTime() {
+    let currentDate = new Date();
+    let time = currentDate.getHours();
+
+    if (time >= 4 && time <= 11) {
+      return "breakfast";
+    } else if (time >= 12 && time <= 16) {
+      return "lunch";
+    } else {
+      return "dinner";
+    }
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"));
+  }
+
+}
+
+const mapState = state => {
+  return {
+    id: state.user.id,
+    email: state.user.email,
+    name: state.user.name,
+    ingredients: state.ingredient.ingredients,
+    recipes: state.recipe.recipes
+  };
+};
+
+const mapDispatch = dispatch => ({
+  fetchRecipes: ingredients => dispatch(Object(_store_recipe__WEBPACK_IMPORTED_MODULE_3__["fetchRecipes"])(ingredients))
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapState, mapDispatch)(Recipes));
+
+/***/ }),
+
 /***/ "./client/components/auth-form.js":
 /*!****************************************!*\
   !*** ./client/components/auth-form.js ***!
@@ -370,7 +436,7 @@ AuthForm.propTypes = {
 /*!************************************!*\
   !*** ./client/components/index.js ***!
   \************************************/
-/*! exports provided: Navbar, UserHome, Login, Signup, AddIngredient */
+/*! exports provided: Navbar, UserHome, Login, Signup, AddIngredient, Recipes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -389,11 +455,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddIngredient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddIngredient */ "./client/components/AddIngredient.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AddIngredient", function() { return _AddIngredient__WEBPACK_IMPORTED_MODULE_3__["AddIngredient"]; });
 
+/* harmony import */ var _Recipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Recipes */ "./client/components/Recipes.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Recipes", function() { return _Recipes__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
+
 
 
 
@@ -431,7 +501,9 @@ const Navbar = ({
 }, "Home"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
   href: "#",
   onClick: handleClick
-}, "Logout")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+}, "Logout"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+  to: "/recipes"
+}, "Recipes")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
   to: "/login"
 }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
   to: "/signup"
@@ -645,6 +717,9 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }), isLoggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
       path: "/home",
       component: _components__WEBPACK_IMPORTED_MODULE_4__["UserHome"]
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+      path: "/recipes",
+      component: _components__WEBPACK_IMPORTED_MODULE_4__["Recipes"]
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
       component: _components__WEBPACK_IMPORTED_MODULE_4__["Login"]
     }));
@@ -712,7 +787,7 @@ socket.on('connect', () => {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, auth, me, logout, fetchIngredients, newIngredient */
+/*! exports provided: default, auth, me, logout, fetchIngredients, newIngredient, fetchRecipes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -725,6 +800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user */ "./client/store/user.js");
 /* harmony import */ var _ingredient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ingredient */ "./client/store/ingredient.js");
+/* harmony import */ var _recipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./recipe */ "./client/store/recipe.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["auth"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "me", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["me"]; });
@@ -735,6 +811,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "newIngredient", function() { return _ingredient__WEBPACK_IMPORTED_MODULE_5__["newIngredient"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fetchRecipes", function() { return _recipe__WEBPACK_IMPORTED_MODULE_6__["fetchRecipes"]; });
+
+
 
 
 
@@ -743,13 +822,15 @@ __webpack_require__.r(__webpack_exports__);
 
 const reducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   user: _user__WEBPACK_IMPORTED_MODULE_4__["default"],
-  ingredient: _ingredient__WEBPACK_IMPORTED_MODULE_5__["default"]
+  ingredient: _ingredient__WEBPACK_IMPORTED_MODULE_5__["default"],
+  recipe: _recipe__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 const middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
   collapsed: true
 })));
 const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, middleware);
 /* harmony default export */ __webpack_exports__["default"] = (store);
+
 
 
 
@@ -847,6 +928,77 @@ let defaultState = {};
 
     case REMOVE_INGREDIENT:
       return defaultState;
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
+/***/ "./client/store/recipe.js":
+/*!********************************!*\
+  !*** ./client/store/recipe.js ***!
+  \********************************/
+/*! exports provided: fetchRecipes, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchRecipes", function() { return fetchRecipes; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../history */ "./client/history.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+
+
+
+
+const Spoonacular_API_KEY = __webpack_require__(/*! ../../secrets */ "./secrets.js");
+/**
+ * ACTION TYPES
+ */
+
+
+const GET_RECIPES = "GET_RECIPES";
+
+const getRecipes = recipes => ({
+  type: GET_RECIPES,
+  recipes
+});
+
+const fetchRecipes = ingredients => async dispatch => {
+  let names = ingredients.map(ingredient => {
+    return ingredient.name;
+  });
+  console.log(names);
+  let strIngredients = names.join(",");
+  console.log(strIngredients);
+
+  try {
+    let {
+      data
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${Spoonacular_API_KEY}&ingredients=${strIngredients}`);
+    console.log("SPOONACULAR>>> initial return", data);
+    let links = data.map(async recipe => {
+      let link = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${Spoonacular_API_KEY}`);
+      return link;
+    });
+    let urls = await Promise.all(links); // console.log("SPOONACULAR>>>>>>> source links return", urls);
+    // dispatch(getRecipes(urls));
+  } catch (authError) {
+    return dispatch(getRecipes({
+      error: authError
+    }));
+  }
+};
+let defaultState = {};
+/* harmony default export */ __webpack_exports__["default"] = (function (state = defaultState, action) {
+  switch (action.type) {
+    case GET_RECIPES:
+      return { ...defaultState,
+        recipes: action.recipes
+      };
 
     default:
       return state;
@@ -71792,6 +71944,18 @@ if (hasSymbols()) {
     configurable: true
   });
 }
+
+/***/ }),
+
+/***/ "./secrets.js":
+/*!********************!*\
+  !*** ./secrets.js ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const Spoonacular_API_KEY = "97b4ae716ed8412699a0b94fca0d05f3";
+module.exports = Spoonacular_API_KEY;
 
 /***/ }),
 
