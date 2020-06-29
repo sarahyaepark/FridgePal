@@ -5,10 +5,10 @@ import { fetchRecipes } from "../store/recipe";
 
 export class Recipes extends React.Component {
   componentDidMount() {
-      let ingredients = this.props.ingredients
-      if(ingredients !== undefined) {
-        this.props.fetchRecipes(ingredients)
-      }
+    let ingredients = this.props.ingredients;
+    if (ingredients !== undefined) {
+      this.props.fetchRecipes(ingredients);
+    }
     //   console.log(this.props)
   }
   mealTime() {
@@ -23,9 +23,23 @@ export class Recipes extends React.Component {
     }
   }
   render() {
+    console.log("rendering recipes...", this.props);
+    let recipes = this.props.recipes;
     return (
       <div>
         <h1>What's for {this.mealTime()}?</h1>
+        {recipes !== undefined
+          ? recipes.map((recipe) => {
+              return (
+                <div key={recipe.id}>
+                  <a href={recipe.sourceUrl}>
+                    <img src={recipe.imgUrl} />
+                  </a>
+                  <h3>{recipe.title}</h3>
+                </div>
+              );
+            })
+          : null}
       </div>
     );
   }
@@ -37,12 +51,12 @@ const mapState = (state) => {
     email: state.user.email,
     name: state.user.name,
     ingredients: state.ingredient.ingredients,
-    recipes: state.recipe.recipes
+    recipes: state.recipe.recipes,
   };
 };
 
 const mapDispatch = (dispatch) => ({
-    fetchRecipes: (ingredients) => dispatch(fetchRecipes(ingredients)),
+  fetchRecipes: (ingredients) => dispatch(fetchRecipes(ingredients)),
 });
 
 export default connect(mapState, mapDispatch)(Recipes);

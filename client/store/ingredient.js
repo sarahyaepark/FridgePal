@@ -39,12 +39,12 @@ export const fetchIngredients = (id) => async (dispatch) => {
 
 export const newIngredient = (userId, name, quantity) => async (dispatch) => {
   try {
-    let res = await axios.post(`/api`, {
-      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name}}`,
+    let {data} = await axios.post(`/api`, {
+      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name, id}}`,
     });
-    console.log(">>>>******>>>>>>>", res);
-    //   let ingredients = data.data.user.ingredients
-    //   dispatch(getIngredients(ingredients))
+    console.log(">>>>******>>>>>>>", data);
+      // let ingredient = data.data.addIngredient
+    // dispatch(addIngredients(ingredient));
     // NEED TO ADD ERROR HANDLING
   } catch (authError) {
     // console.log(authError)
@@ -60,6 +60,8 @@ export default function (state = defaultState, action) {
   switch (action.type) {
     case GET_INGREDIENTS:
       return { ...defaultState, ingredients: action.ingredients };
+    case ADD_INGREDIENT:
+      return { ...defaultState, ingredients: [...defaultState, action.ingredient] };
     case REMOVE_INGREDIENT:
       return defaultState;
     default:

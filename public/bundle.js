@@ -194,7 +194,17 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"));
+    console.log("rendering recipes...", this.props);
+    let recipes = this.props.recipes;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"), recipes !== undefined ? recipes.map(recipe => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: recipe.id
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: recipe.sourceUrl
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: recipe.imgUrl
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, recipe.title));
+    }) : null);
   }
 
 }
@@ -901,11 +911,13 @@ const fetchIngredients = id => async dispatch => {
 };
 const newIngredient = (userId, name, quantity) => async dispatch => {
   try {
-    let res = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
-      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name}}`
+    let {
+      data
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
+      query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name, id}}`
     });
-    console.log(">>>>******>>>>>>>", res); //   let ingredients = data.data.user.ingredients
-    //   dispatch(getIngredients(ingredients))
+    console.log(">>>>******>>>>>>>", data); // let ingredient = data.data.addIngredient
+    // dispatch(addIngredients(ingredient));
     // NEED TO ADD ERROR HANDLING
   } catch (authError) {
     // console.log(authError)
@@ -924,6 +936,11 @@ let defaultState = {};
     case GET_INGREDIENTS:
       return { ...defaultState,
         ingredients: action.ingredients
+      };
+
+    case ADD_INGREDIENT:
+      return { ...defaultState,
+        ingredients: [...defaultState, action.ingredient]
       };
 
     case REMOVE_INGREDIENT:
@@ -984,8 +1001,28 @@ const fetchRecipes = ingredients => async dispatch => {
       let link = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${Spoonacular_API_KEY}`);
       return link;
     });
-    let urls = await Promise.all(links); // console.log("SPOONACULAR>>>>>>> source links return", urls);
-    // dispatch(getRecipes(urls));
+    let urls = await Promise.all(links);
+    let sourceUrls = urls.map(url => {
+      return url.data.sourceUrl;
+    }); // create array of objects omg this thunk is getting so long
+
+    let recipeInfo = data.map(recipe => {
+      let tempRecipe = {
+        id: recipe.id,
+        imgUrl: recipe.image,
+        title: recipe.title,
+        usedIngredients: recipe.usedIngredients
+      };
+      return tempRecipe;
+    }); // add source url to each object in recipeInfo
+
+    for (let i = 0; i < recipeInfo.length; i++) {
+      recipeInfo[i].sourceUrl = sourceUrls[i];
+    }
+
+    console.log("SPOONACULAR>>>>>>> source links return", recipeInfo); // want to dispatch an object with the image, title, usedIngredients, sourceUrls
+
+    dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({
       error: authError
@@ -71954,7 +71991,7 @@ if (hasSymbols()) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "97b4ae716ed8412699a0b94fca0d05f3";
+const Spoonacular_API_KEY = "15809171db73416cb274946386a47c0d";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),
