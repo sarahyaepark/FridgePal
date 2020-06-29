@@ -149,6 +149,21 @@ const mutationType = new graphql.GraphQLObjectType({
         }
       },
     },
+    deleteIngredient: {
+      type: ingredientType,
+      args: {
+        id: {type: graphql.GraphQLID}
+      },
+      async resolve(parent, args) {
+        try {
+          await Ingredient.destroy({
+            where: {id: args.id}
+          })
+        } catch(err) {
+          console.log(err)
+        }
+      }
+    }
   },
 });
 

@@ -4,20 +4,21 @@ import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
 
 export const AddIngredient = (props) => {
-    const {handleSubmit} = props
+  const { handleSubmit } = props;
   return (
-    <div>
-      <h3>What's in your fridge?</h3>
-      <Form onSubmit ={handleSubmit}>
+    <div className="addIngredient">
+      <h2 id="addTitle">What's in your fridge?</h2>
+      <Form onSubmit={handleSubmit} className="addForm">
         <Form.Group controlId="formInput">
           <Form.Label>Ingredient</Form.Label>
           <Form.Control
             type="text"
             name="ingredientName"
             placeholder="Tomato..."
+            className="addGrid"
           />
         </Form.Group>
-        <Button id="tealButton" size="lg" type="submit">
+        <Button id="addButton" size="lg" type="submit">
           Add Ingredient
         </Button>
       </Form>

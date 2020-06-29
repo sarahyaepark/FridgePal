@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Recipes} from './components'
+import {Login, Signup, UserHome, Recipes, Footer} from './components'
 import {me} from './store'
 
 class Routes extends Component {
@@ -16,6 +16,7 @@ class Routes extends Component {
     console.log('routes', this.props)
     const {isLoggedIn} = this.props
     return (
+      <div>
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
@@ -30,6 +31,15 @@ class Routes extends Component {
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Footer isLoggedIn={isLoggedIn}/>
+      </div>
     )
   }
 }

@@ -25,14 +25,15 @@ const removeUser = () => ({ type: REMOVE_USER });
 
 export const auth = (email, password, method, name) => async (dispatch) => {
   let res;
+  let cleanEmail = email.toLowerCase()
   try {
     if (name) {
       res = await axios.post(`/api`, {
-        query: `mutation {addUser(email: "${email}", name: "${name}", password: "${password}"), {id, name, email}}`,
+        query: `mutation {addUser(email: "${cleanEmail}", name: "${name}", password: "${password}"), {id, name, email}}`,
       });
     } else {
       res = await axios.post(`/api`, {
-        query: `mutation {addUser(email: "${email}", password: "${password}"), {id, name, email}}`,
+        query: `mutation {addUser(email: "${cleanEmail}", password: "${password}"), {id, name, email}}`,
       });
     }
     dispatch(getUser(res.data.data.addUser))

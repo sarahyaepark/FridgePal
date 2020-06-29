@@ -35,7 +35,6 @@ export const fetchRecipes = (ingredients) => async (dispatch) => {
     let sourceUrls = urls.map((url) => {
       return url.data.sourceUrl;
     });
-    // create array of objects omg this thunk is getting so long
     let recipeInfo = data.map((recipe) => {
       let tempRecipe = {
         id: recipe.id,
@@ -45,12 +44,10 @@ export const fetchRecipes = (ingredients) => async (dispatch) => {
       };
       return tempRecipe;
     });
-    // add source url to each object in recipeInfo
     for (let i = 0; i < recipeInfo.length; i++) {
       recipeInfo[i].sourceUrl = sourceUrls[i];
     }
     console.log("SPOONACULAR>>>>>>> source links return", recipeInfo);
-    // want to dispatch an object with the image, title, usedIngredients, sourceUrls
     dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({ error: authError }));
