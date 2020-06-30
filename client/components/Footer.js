@@ -22,7 +22,7 @@ const Footer = ({ handleClick, isLoggedIn }) => (
         <div className="footerItem">
           <Link to="/recipes">
             <img
-              src="https://i.dlpng.com/static/png/1574788-kitchen-plate-spoon-fork-egg-recipe-comments-egg-and-spoon-png-980_850_preview.png"
+              src="https://image.flaticon.com/icons/png/512/100/100417.png"
               width="40px"
               height="35px"
             />

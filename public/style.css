@@ -7,7 +7,7 @@ a {
 }
 
 a:visited {
-  color: #4C9A2A;
+  color: #4c9a2a;
 }
 
 label {
@@ -17,7 +17,7 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
-  color: #4C9A2A;
+  color: #4c9a2a;
 }
 
 form div {
@@ -26,7 +26,6 @@ form div {
 }
 
 .recipesPage {
-  background-color: #fffafc;
   margin-left: auto;
   margin-right: auto;
 }
@@ -42,21 +41,28 @@ form div {
   display: flex;
   /* justify-content: center; */
   flex-direction: column;
+  justify-content: space-around;
+  margin: -10px;
 }
 
 .recipe {
   display: flex;
   flex-direction: column;
-  
+  border-color: #a4de02;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
 }
 
-#addTitle{
+#recipeImg {
+  display: flex;
+  justify-self: center;
+}
+
+#addTitle {
   padding-bottom: 0px;
   margin-bottom: 0px;
-}
-
-h3 {
-  line-height: 10px;
 }
 
 .authForm {
@@ -75,7 +81,7 @@ h3 {
   border-style: solid;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 4px 4px #4c9a2a; 
+  box-shadow: 4px 4px #4c9a2a;
 }
 
 #submitButton {
@@ -122,7 +128,7 @@ h3 {
   justify-content: space-between;
 }
 
-.ingredientsContainer{
+.ingredientsContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,14 +139,14 @@ h3 {
   align-self: flex-start;
 }
 
-.singlesContainer{
+.singlesContainer {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
   margin: -10px;
 }
 
-.singleIngredient{
+.singleIngredient {
   border-radius: 5px;
   border-color: #4c9a2a;
   border-style: solid;
@@ -175,7 +181,7 @@ h3 {
   z-index: 10;
 }
 
-.footerItem{
+.footerItem {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -183,7 +189,7 @@ h3 {
   /* margin: 0 auto; */
 }
 
-.footerItem p{
+.footerItem p {
   color: white;
   font-size: medium;
 }

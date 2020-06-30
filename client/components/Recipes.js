@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { fetchRecipes } from "../store/recipe";
 
-let ingredientsLen = 0;
+let ingredientsCompare = [];
 export class Recipes extends React.Component {
   componentDidMount() {
     let ingredients = this.props.ingredients;
@@ -11,12 +11,24 @@ export class Recipes extends React.Component {
     // is greater than ingredients length before the component mounts
     // then call fetch recipes
     // else do nothing
+
+    // make the actual ingredient names match now
+    console.log(ingredients);
+    let idx1 = 0;
     if (ingredients !== undefined) {
-      let ingredientsLen2 = ingredients.length;
-      if (ingredientsLen2 > ingredientsLen) {
-        this.props.fetchRecipes(ingredients);
+      let ingredientsCompare2 = ingredients;
+      while (ingredientsCompare[idx1] !== undefined) {
+        if (ingredientsCompare[idx1] === ingredientsCompare2[idx1]) {
+          idx1++;
+        } else {
+          this.props.fetchRecipes(ingredients);
+          break
+        }
       }
-      ingredientsLen = ingredientsLen2;
+      ingredientsCompare = ingredientsCompare2;
+      // if (ingredientsLen2 > ingredientsLen) {
+      //   this.props.fetchRecipes(ingredients);
+      // }
     }
   }
   mealTime() {
@@ -37,28 +49,28 @@ export class Recipes extends React.Component {
       <div className="recipesPage">
         <h1>What's for {this.mealTime()}?</h1>
         <div className="recipesContainer">
-        {recipes !== undefined ? (
-          recipes.map((recipe) => {
-            return (
-              <div className="recipe" key={recipe.id}>
-                <a href={recipe.sourceUrl}>
-                  <img src={recipe.imgUrl} />
-                </a>
-                <h3>{recipe.title}</h3>
-                <h3>Uses:</h3>
-                {recipe.usedIngredients.map((ingredient) => {
-                  return <li key={ingredient.id}>{ingredient.name}</li>;
-                })}
-              </div>
-            );
-          })
-        ) : (
-          <img
-            src="https://i.pinimg.com/originals/ee/1d/08/ee1d081c5bdf966b058c1a6588e73e8a.gif"
-            alt="loading..."
-            id = "loadingImg"
-          />
-        )}
+          {recipes !== undefined ? (
+            recipes.map((recipe) => {
+              return (
+                <div className="recipe" key={recipe.id}>
+                  <a href={recipe.sourceUrl}>
+                    <img id="recipeImg" src={recipe.imgUrl} />
+                  </a>
+                  <h3>{recipe.title}</h3>
+                  <h3>Uses:</h3>
+                  {recipe.usedIngredients.map((ingredient) => {
+                    return <li key={ingredient.id}>{ingredient.name}</li>;
+                  })}
+                </div>
+              );
+            })
+          ) : (
+            <img
+              src="https://i.pinimg.com/originals/ee/1d/08/ee1d081c5bdf966b058c1a6588e73e8a.gif"
+              alt="loading..."
+              id="loadingImg"
+            />
+          )}
         </div>
       </div>
     );
