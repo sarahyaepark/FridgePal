@@ -244,14 +244,17 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     // then call fetch recipes
     // else do nothing
     // make the actual ingredient names match now
+    // console.log(ingredients);
 
-    console.log(ingredients);
-    let idx1 = 0;
+    let idx1 = 0; // when else do I want it to fetch recipes?
 
     if (ingredients !== undefined) {
+      // if (ingredientsCompare.length === 0) this.props.fetchRecipes(ingredients);
       let ingredientsCompare2 = ingredients;
 
       while (ingredientsCompare[idx1] !== undefined) {
+        console.log(ingredientsCompare[idx1], ingredientsCompare2[idx1]);
+
         if (ingredientsCompare[idx1] === ingredientsCompare2[idx1]) {
           idx1++;
         } else {
@@ -260,9 +263,14 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
         }
       }
 
-      ingredientsCompare = ingredientsCompare2; // if (ingredientsLen2 > ingredientsLen) {
-      //   this.props.fetchRecipes(ingredients);
-      // }
+      console.log("ONE", ingredientsCompare, "TWO", ingredientsCompare2);
+
+      if (ingredientsCompare.length === 0) {
+        console.log("LENGTH OF ONE IS SUPPOSED TO BE ZERO");
+        this.props.fetchRecipes(ingredients);
+      }
+
+      ingredientsCompare = ingredientsCompare2;
     }
   }
 
@@ -594,6 +602,7 @@ class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     let userId = this.props.id;
     this.props.deleteIngredient(id);
     this.props.fetchIngredients(userId);
+    this.props.fetchIngredients(userId);
   }
 
   render() {
@@ -676,6 +685,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var apollo_boost__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! apollo-boost */ "./node_modules/apollo-boost/lib/bundle.esm.js");
 /* harmony import */ var react_apollo__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-apollo */ "./node_modules/react-apollo/lib/react-apollo.esm.js");
 /* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./socket */ "./client/socket.js");
+/* harmony import */ var _public_worker__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../public/worker */ "./public/worker.js");
+/* harmony import */ var _public_worker__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_public_worker__WEBPACK_IMPORTED_MODULE_10__);
 
 
 
@@ -685,6 +696,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // establishes socket connection
+
 
 
 const client = new apollo_boost__WEBPACK_IMPORTED_MODULE_7__["default"]({
@@ -697,6 +709,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Router"], {
   history: _history__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_app__WEBPACK_IMPORTED_MODULE_6__["default"], null)))), document.getElementById("app"));
+_public_worker__WEBPACK_IMPORTED_MODULE_10__["register"]();
 
 /***/ }),
 
@@ -72024,6 +72037,48 @@ if (hasSymbols()) {
 
 /***/ }),
 
+/***/ "./public/worker.js":
+/*!**************************!*\
+  !*** ./public/worker.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var CACHE_NAME = 'pwa-task-manager';
+var urlsToCache = ['/', '/completed']; // Install a service worker
+
+self.addEventListener('install', event => {
+  // Perform install steps
+  event.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
+    console.log('Opened cache');
+    return cache.addAll(urlsToCache);
+  }));
+}); // Cache and return requests
+
+self.addEventListener('fetch', event => {
+  event.respondWith(caches.match(event.request).then(function (response) {
+    // Cache hit - return response
+    if (response) {
+      return response;
+    }
+
+    return fetch(event.request);
+  }));
+}); // Update a service worker
+
+self.addEventListener('activate', event => {
+  var cacheWhitelist = ['pwa-task-manager'];
+  event.waitUntil(caches.keys().then(cacheNames => {
+    return Promise.all(cacheNames.map(cacheName => {
+      if (cacheWhitelist.indexOf(cacheName) === -1) {
+        return caches.delete(cacheName);
+      }
+    }));
+  }));
+});
+
+/***/ }),
+
 /***/ "./secrets.js":
 /*!********************!*\
   !*** ./secrets.js ***!
@@ -72031,7 +72086,7 @@ if (hasSymbols()) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "ee2b1c3fb5cd463489e76cb053e7c0a1";
+const Spoonacular_API_KEY = "751daa2e201b42b9a110ac0e1b64f0ea";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),
