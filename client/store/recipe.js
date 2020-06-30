@@ -2,7 +2,7 @@ import axios from "axios";
 import history from "../history";
 import { push } from "connected-react-router";
 const Spoonacular_API_KEY =
-  process.env.Spoonacular_API_KEY || require("../../secrets");
+  process.env.Spoonacular_API_KEY;
 
 /**
  * ACTION TYPES
