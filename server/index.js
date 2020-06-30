@@ -28,9 +28,9 @@ if (process.env.NODE_ENV === "test") {
  * keys as environment variables, so that they can still be read by the
  * Node process on process.env
  */
-// if (process.env.NODE_ENV !== "production") {
-//   require("../secrets")
-// };
+if (process.env.NODE_ENV !== "production") {
+  require("../secrets")
+};
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
