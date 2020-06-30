@@ -1023,7 +1023,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Spoonacular_API_KEY = process.env.Spoonacular_API_KEY || __webpack_require__(/*! ../../secrets */ "./secrets.js");
+const Spoonacular_API_KEY = process.env.SPOONACULAR_API_KEY || __webpack_require__(/*! ../../secrets */ "./secrets.js");
 /**
  * ACTION TYPES
  */
@@ -1043,6 +1043,7 @@ const fetchRecipes = ingredients => async dispatch => {
   console.log(names);
   let strIngredients = names.join(",");
   console.log(strIngredients);
+  console.log('API KEY', Spoonacular_API_KEY);
 
   try {
     let {
@@ -72086,7 +72087,7 @@ self.addEventListener('activate', event => {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "751daa2e201b42b9a110ac0e1b64f0ea";
+const Spoonacular_API_KEY = "f96e8b1767184234823774d3eec88e6d";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),
