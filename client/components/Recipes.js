@@ -13,22 +13,27 @@ export class Recipes extends React.Component {
     // else do nothing
 
     // make the actual ingredient names match now
-    console.log(ingredients);
+    // console.log(ingredients);
     let idx1 = 0;
+    // when else do I want it to fetch recipes?
     if (ingredients !== undefined) {
+      // if (ingredientsCompare.length === 0) this.props.fetchRecipes(ingredients);
       let ingredientsCompare2 = ingredients;
       while (ingredientsCompare[idx1] !== undefined) {
+        console.log(ingredientsCompare[idx1], ingredientsCompare2[idx1]);
         if (ingredientsCompare[idx1] === ingredientsCompare2[idx1]) {
           idx1++;
         } else {
           this.props.fetchRecipes(ingredients);
-          break
+          break;
         }
       }
+      console.log("ONE", ingredientsCompare, "TWO", ingredientsCompare2);
+      if (ingredientsCompare.length === 0) {
+        console.log("LENGTH OF ONE IS SUPPOSED TO BE ZERO");
+        this.props.fetchRecipes(ingredients);
+      }
       ingredientsCompare = ingredientsCompare2;
-      // if (ingredientsLen2 > ingredientsLen) {
-      //   this.props.fetchRecipes(ingredients);
-      // }
     }
   }
   mealTime() {

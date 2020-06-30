@@ -1,0 +1,16 @@
+{
+    "short_name": "FridgePal",
+    "name": "Your next meal",
+    "icons": [
+      {
+        "src": "./favicon.ico",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "http://localhost:8080/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  

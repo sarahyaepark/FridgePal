@@ -9,6 +9,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 // establishes socket connection
 import "./socket";
+import * as serviceWorker from '../public/worker'
 
 const client = new ApolloClient({
   uri: "http://localhost:8080/api",
@@ -24,3 +25,5 @@ ReactDOM.render(
   </ApolloProvider>,
   document.getElementById("app")
 );
+
+serviceWorker.register()

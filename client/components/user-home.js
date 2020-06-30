@@ -26,6 +26,7 @@ export class UserHome extends React.Component {
     let userId = this.props.id;
     this.props.deleteIngredient(id)
     this.props.fetchIngredients(userId);
+    this.props.fetchIngredients(userId);
   }
   render() {
     let { ingredients } = this.props;
