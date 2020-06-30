@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require("socket.io");
 const graphqlHttp = require("express-graphql");
-// const { buildSchema } = require("graphql");
 const schema = require('./api/users')
 module.exports = app;
 
