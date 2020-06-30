@@ -30,6 +30,9 @@ if (process.env.NODE_ENV === "test") {
  */
 if (process.env.NODE_ENV !== "production") {
   require("../secrets")
+};
+
+if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
       res.redirect(`https://${req.header('host')}${req.url}`)
