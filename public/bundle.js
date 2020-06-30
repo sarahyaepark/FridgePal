@@ -361,6 +361,7 @@ const AuthForm = props => {
     handleSubmit,
     error
   } = props;
+  console.log(props);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "authForm"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), name === "signup" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Sign Up") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Log In"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -392,14 +393,15 @@ const AuthForm = props => {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
     id: "submitButton",
     type: "submit"
-  }, displayName))));
+  }, displayName), props.user !== undefined ? props.user.id === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Incorrect email or password") : null : null)));
 };
 
 const mapLogin = state => {
   return {
     name: "login",
     displayName: "Login",
-    error: state.user.error
+    error: state.user.error,
+    user: state.user
   };
 };
 
@@ -572,13 +574,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * COMPONENT
- */
-
 class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   componentDidMount() {
-    this.props.fetchIngredients(this.props.id);
+    this.props.fetchIngredients(parseInt(this.props.id));
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -587,6 +585,7 @@ class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     let userId = this.props.id;
     let name = event.target.ingredientName.value;
     this.props.newIngredient(userId, name);
+    this.props.fetchIngredients(userId);
     this.props.fetchIngredients(userId);
   }
 
@@ -601,7 +600,7 @@ class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     let {
       ingredients
     } = this.props;
-    console.log("rendering...", this.props.ingredients);
+    console.log("rendering...", this.props);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "ingredientsContainer"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1002,7 +1001,7 @@ let defaultState = {};
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchRecipes", function() { return fetchRecipes; });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchRecipes", function() { return fetchRecipes; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../history */ "./client/history.js");
@@ -1011,7 +1010,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Spoonacular_API_KEY = __webpack_require__(/*! ../../secrets */ "./secrets.js");
+const Spoonacular_API_KEY = process.env.Spoonacular_API_KEY || __webpack_require__(/*! ../../secrets */ "./secrets.js");
 /**
  * ACTION TYPES
  */
@@ -1079,6 +1078,7 @@ let defaultState = {};
       return state;
   }
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -1144,12 +1144,14 @@ const auth = (email, password, method, name) => async dispatch => {
       });
     }
 
-    dispatch(getUser(res.data.data.addUser));
-    dispatch(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_2__["push"])('/home')); // NEED TO ADD ERROR HANDLING
+    if (res.data.data.addUser.id) {
+      dispatch(getUser(res.data.data.addUser));
+      dispatch(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_2__["push"])('/home'));
+    } else {
+      dispatch(getUser("Incorrect email or password"));
+    } // NEED TO ADD ERROR HANDLING
 
-    console.log(res);
   } catch (authError) {
-    // console.log(authError)
     return dispatch(getUser({
       error: authError
     }));
@@ -1189,7 +1191,6 @@ const logout = () => async dispatch => {
 /* harmony default export */ __webpack_exports__["default"] = (function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
-      console.log("*************", action.user);
       return action.user;
 
     case REMOVE_USER:
@@ -3216,7 +3217,7 @@ function noop() {}
 /*!*****************************************************!*\
   !*** ./node_modules/apollo-boost/lib/bundle.esm.js ***!
   \*****************************************************/
-/*! exports provided: HttpLink, gql, default, ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument */
+/*! exports provided: ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument, HttpLink, gql, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62559,7 +62560,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

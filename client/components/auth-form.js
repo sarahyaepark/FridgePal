@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-
+  console.log(props);
   return (
     <div className="authForm">
       <br />
@@ -54,6 +54,11 @@ const AuthForm = (props) => {
           <Button id="submitButton" type="submit">
             {displayName}
           </Button>
+          {props.user !== undefined ? (
+            props.user.id === null ? (
+              <p>Incorrect email or password</p>
+            ) : null
+          ) : null}
         </Form>
       </div>
     </div>
@@ -65,6 +70,7 @@ const mapLogin = (state) => {
     name: "login",
     displayName: "Login",
     error: state.user.error,
+    user: state.user,
   };
 };
 

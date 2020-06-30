@@ -6,13 +6,11 @@ import {
   newIngredient,
   deleteIngredient,
 } from "../store/ingredient";
-/**
- * COMPONENT
- */
+
 
 export class UserHome extends React.Component {
   componentDidMount() {
-    this.props.fetchIngredients(this.props.id);
+    this.props.fetchIngredients(parseInt(this.props.id));
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(event) {
@@ -20,6 +18,7 @@ export class UserHome extends React.Component {
     let userId = this.props.id;
     let name = event.target.ingredientName.value;
     this.props.newIngredient(userId, name);
+    this.props.fetchIngredients(userId);
     this.props.fetchIngredients(userId);
   }
   handleDelete(id) {
@@ -30,7 +29,7 @@ export class UserHome extends React.Component {
   }
   render() {
     let { ingredients } = this.props;
-    console.log("rendering...", this.props.ingredients);
+    console.log("rendering...", this.props);
     return (
       <div className="ingredientsContainer">
         <h3 id="welcome">Welcome, {this.props.name}</h3>
