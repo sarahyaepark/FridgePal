@@ -199,7 +199,7 @@ const Footer = ({
 }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
   to: "/recipes"
 }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-  src: "https://i.dlpng.com/static/png/1574788-kitchen-plate-spoon-fork-egg-recipe-comments-egg-and-spoon-png-980_850_preview.png",
+  src: "https://image.flaticon.com/icons/png/512/100/100417.png",
   width: "40px",
   height: "35px"
 }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Recipes"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -236,22 +236,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let ingredientsLen = 0;
+let ingredientsCompare = [];
 class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   componentDidMount() {
     let ingredients = this.props.ingredients; // if ingredients length when component mounts
     // is greater than ingredients length before the component mounts
     // then call fetch recipes
     // else do nothing
+    // make the actual ingredient names match now
+
+    console.log(ingredients);
+    let idx1 = 0;
 
     if (ingredients !== undefined) {
-      let ingredientsLen2 = ingredients.length;
+      let ingredientsCompare2 = ingredients;
 
-      if (ingredientsLen2 > ingredientsLen) {
-        this.props.fetchRecipes(ingredients);
+      while (ingredientsCompare[idx1] !== undefined) {
+        if (ingredientsCompare[idx1] === ingredientsCompare2[idx1]) {
+          idx1++;
+        } else {
+          this.props.fetchRecipes(ingredients);
+          break;
+        }
       }
 
-      ingredientsLen = ingredientsLen2;
+      ingredientsCompare = ingredientsCompare2; // if (ingredientsLen2 > ingredientsLen) {
+      //   this.props.fetchRecipes(ingredients);
+      // }
     }
   }
 
@@ -282,6 +293,7 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: recipe.sourceUrl
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        id: "recipeImg",
         src: recipe.imgUrl
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, recipe.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Uses:"), recipe.usedIngredients.map(ingredient => {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -806,7 +818,7 @@ socket.on('connect', () => {
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
   \*******************************/
-/*! exports provided: default, auth, me, logout, fetchRecipes, fetchIngredients, newIngredient, deleteIngredient */
+/*! exports provided: default, auth, me, logout, fetchIngredients, newIngredient, deleteIngredient, fetchRecipes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72018,7 +72030,7 @@ if (hasSymbols()) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "e4e1b4d9259940119f44966cc5f6399d";
+const Spoonacular_API_KEY = "df055f4080824a32b5e85a914da4785f";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),
