@@ -1,13 +1,13 @@
 const graphql = require("graphql");
 const { User } = require("../db/models");
 const { Ingredient } = require("../db/models");
-
+const crypto = require("crypto");
 
 const ingredientType = new graphql.GraphQLObjectType({
   name: "Ingredient",
   fields: {
     id: { type: graphql.GraphQLID },
-    userId: {type: graphql.GraphQLInt},
+    userId: { type: graphql.GraphQLInt },
     name: { type: graphql.GraphQLString },
     quantity: { type: graphql.GraphQLInt },
   },
@@ -20,10 +20,9 @@ const userType = new graphql.GraphQLObjectType({
     email: { type: graphql.GraphQLString },
     name: { type: graphql.GraphQLString },
     password: { type: graphql.GraphQLString },
-    ingredients: { type: graphql.GraphQLList(ingredientType) }
+    ingredients: { type: graphql.GraphQLList(ingredientType) },
   },
 });
-
 
 const queryType = new graphql.GraphQLObjectType({
   name: "Query",
@@ -32,19 +31,22 @@ const queryType = new graphql.GraphQLObjectType({
       type: userType,
       args: {
         id: { type: graphql.GraphQLID },
+        // email: { type: graphql.GraphQLString },
       },
       resolve: async (parent, args) => {
         // code to get data from db
         try {
           const foundUser = await User.findOne({
-            where: { id: args.id },
+            where: {
+              id: args.id
+            },
             include: [{
               model: Ingredient,
               where: {userId: args.id},
               required: false
             }]
           });
-          return foundUser;
+          return foundUser
         } catch (err) {
           console.log(err);
         }
@@ -56,7 +58,7 @@ const queryType = new graphql.GraphQLObjectType({
         // code to get data from db
         try {
           const users = await User.findAll({ include: Ingredient });
-          console.log(users)
+          console.log(users);
           return users;
         } catch (err) {
           console.log(err);
@@ -86,7 +88,7 @@ const queryType = new graphql.GraphQLObjectType({
         // code to get data from db
         try {
           const ingredients = await Ingredient.findAll();
-          console.log(ingredients)
+          console.log(ingredients);
           return ingredients;
         } catch (err) {
           console.log(err);
@@ -108,20 +110,23 @@ const mutationType = new graphql.GraphQLObjectType({
       },
       async resolve(parent, args) {
         try {
-          let attemptFind = await User.findOne({ 
-            where: { email: args.email }
-          })
+          let attemptFind = await User.findOne({
+            where: { email: args.email },
+          });
           if (attemptFind) {
-            return attemptFind
-          }
-          else {
+            if(!attemptFind.correctPassword(args.password)) {
+              return "Incorrect email or password"
+            } else {
+              return attemptFind;
+            }          
+          } else {
             let user = new User({
-            email: args.email,
-            name: args.name,
-            password: args.password,
+              email: args.email,
+              name: args.name,
+              password: args.password,
             });
             const created = await User.create(user.dataValues);
-            return created
+            return created;
           }
         } catch (err) {
           console.log(err);
@@ -131,19 +136,19 @@ const mutationType = new graphql.GraphQLObjectType({
     addIngredient: {
       type: ingredientType,
       args: {
-        userId: {type: graphql.GraphQLInt},
+        userId: { type: graphql.GraphQLInt },
         name: { type: graphql.GraphQLString },
         quantity: { type: graphql.GraphQLInt },
       },
       async resolve(parent, args) {
         try {
-            let ingredient = new Ingredient({
+          let ingredient = new Ingredient({
             name: args.name,
             quantity: args.quantity,
-            userId: args.userId
-            });
-            const created = await Ingredient.create(ingredient.dataValues);
-            return created
+            userId: args.userId,
+          });
+          const created = await Ingredient.create(ingredient.dataValues);
+          return created;
         } catch (err) {
           console.log(err);
         }
@@ -152,18 +157,18 @@ const mutationType = new graphql.GraphQLObjectType({
     deleteIngredient: {
       type: ingredientType,
       args: {
-        id: {type: graphql.GraphQLID}
+        id: { type: graphql.GraphQLID },
       },
       async resolve(parent, args) {
         try {
           await Ingredient.destroy({
-            where: {id: args.id}
-          })
-        } catch(err) {
-          console.log(err)
+            where: { id: args.id },
+          });
+        } catch (err) {
+          console.log(err);
         }
-      }
-    }
+      },
+    },
   },
 });
 
