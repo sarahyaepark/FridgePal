@@ -393,7 +393,7 @@ const AuthForm = props => {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
     id: "submitButton",
     type: "submit"
-  }, displayName), props.user.id === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Incorrect email or password") : null)));
+  }, displayName), props.user !== undefined ? props.user.id === null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Incorrect email or password") : null : null)));
 };
 
 const mapLogin = state => {

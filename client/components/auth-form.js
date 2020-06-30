@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-  console.log(props)
+  console.log(props);
   return (
     <div className="authForm">
       <br />
@@ -54,8 +54,10 @@ const AuthForm = (props) => {
           <Button id="submitButton" type="submit">
             {displayName}
           </Button>
-          {props.user.id === null ? (
-            <p>Incorrect email or password</p>
+          {props.user !== undefined ? (
+            props.user.id === null ? (
+              <p>Incorrect email or password</p>
+            ) : null
           ) : null}
         </Form>
       </div>
