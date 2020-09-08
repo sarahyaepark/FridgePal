@@ -236,45 +236,52 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let ingredientsCompare = [];
-class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
-  componentDidMount() {
-    let ingredients = this.props.ingredients; // if ingredients length when component mounts
-    // is greater than ingredients length before the component mounts
-    // then call fetch recipes
-    // else do nothing
-    // make the actual ingredient names match now
-    // console.log(ingredients);
+const Recipes = props => {
+  let recipes = props.recipes;
 
-    let idx1 = 0; // when else do I want it to fetch recipes?
+  const compareIngredients = () => {
+    let comparison = [];
 
-    if (ingredients !== undefined) {
-      // if (ingredientsCompare.length === 0) this.props.fetchRecipes(ingredients);
-      let ingredientsCompare2 = ingredients;
-
-      while (ingredientsCompare[idx1] !== undefined) {
-        console.log(ingredientsCompare[idx1], ingredientsCompare2[idx1]);
-
-        if (ingredientsCompare[idx1] === ingredientsCompare2[idx1]) {
-          idx1++;
-        } else {
-          this.props.fetchRecipes(ingredients);
-          break;
-        }
-      }
-
-      console.log("ONE", ingredientsCompare, "TWO", ingredientsCompare2);
-
-      if (ingredientsCompare.length === 0) {
-        console.log("LENGTH OF ONE IS SUPPOSED TO BE ZERO");
-        this.props.fetchRecipes(ingredients);
-      }
-
-      ingredientsCompare = ingredientsCompare2;
+    for (let i = 0; i < props.ingredients.length; i++) {
+      comparison.push(props.ingredients[i].name);
     }
-  }
 
-  mealTime() {
+    return comparison;
+  };
+
+  const compareArrays = (currentArr, originalIngredients) => {
+    if (!Array.isArray(currentArr)) return false;
+    if (currentArr.length !== originalIngredients.length) return false;
+
+    for (let i = 0; i < currentArr.length; i++) {
+      if (currentArr[i] !== originalIngredients[i]) return false;
+    }
+
+    return true;
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    let currentIngredients = sessionStorage.getItem("currentIngredients");
+    let currentArr;
+
+    if (currentIngredients !== null) {
+      currentArr = currentIngredients.split(",");
+    }
+
+    let originalIngredients = compareIngredients();
+    let sameArrays = compareArrays(currentArr, originalIngredients);
+
+    if (!sameArrays) {
+      console.log("FETCHING RECIPES", props.ingredients);
+      props.fetchRecipes(props.ingredients);
+      let newIngredients = compareIngredients();
+      sessionStorage.setItem("currentIngredients", newIngredients);
+    } else {
+      console.log("states were the same");
+    }
+  }, []);
+
+  const mealTime = () => {
     let currentDate = new Date();
     let time = currentDate.getHours();
 
@@ -285,37 +292,32 @@ class Recipes extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     } else {
       return "dinner";
     }
-  }
+  };
 
-  render() {
-    console.log("rendering recipes...", this.props);
-    let recipes = this.props.recipes;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "recipesPage"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", mealTime(), "?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "recipesContainer"
+  }, recipes !== undefined ? recipes.map(recipe => {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "recipesPage"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's for ", this.mealTime(), "?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "recipesContainer"
-    }, recipes !== undefined ? recipes.map(recipe => {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "recipe",
-        key: recipe.id
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: recipe.sourceUrl
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        id: "recipeImg",
-        src: recipe.imgUrl
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, recipe.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Uses:"), recipe.usedIngredients.map(ingredient => {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: ingredient.id
-        }, ingredient.name);
-      }));
-    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-      src: "https://i.pinimg.com/originals/ee/1d/08/ee1d081c5bdf966b058c1a6588e73e8a.gif",
-      alt: "loading...",
-      id: "loadingImg"
-    })));
-  }
-
-}
+      className: "recipe",
+      key: recipe.id
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: recipe.sourceUrl
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      id: "recipeImg",
+      src: recipe.imgUrl
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, recipe.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Uses:"), recipe.usedIngredients.map(ingredient => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: ingredient.id
+      }, ingredient.name);
+    }));
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "https://i.pinimg.com/originals/ee/1d/08/ee1d081c5bdf966b058c1a6588e73e8a.gif",
+    alt: "loading...",
+    id: "loadingImg"
+  })));
+};
 
 const mapState = state => {
   return {
@@ -369,7 +371,6 @@ const AuthForm = props => {
     handleSubmit,
     error
   } = props;
-  console.log(props);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "authForm"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), name === "signup" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Sign Up") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Log In"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -582,52 +583,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class UserHome extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
-  componentDidMount() {
-    this.props.fetchIngredients(parseInt(this.props.id));
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+const UserHome = props => {
+  // let [currentIngredients, updateIngredients] = useState(0)
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    props.fetchIngredients(parseInt(props.id));
+  }, []);
 
-  handleSubmit(event) {
+  const handleSubmit = event => {
     event.preventDefault();
-    let userId = this.props.id;
+    let userId = props.id;
     let name = event.target.ingredientName.value;
-    this.props.newIngredient(userId, name);
-    this.props.fetchIngredients(userId);
-    this.props.fetchIngredients(userId);
-  }
+    props.newIngredient(userId, name);
+    props.fetchIngredients(parseInt(userId));
+    props.fetchIngredients(parseInt(userId));
+  };
 
-  handleDelete(id) {
-    console.log("deleting ", id);
-    let userId = this.props.id;
-    this.props.deleteIngredient(id);
-    this.props.fetchIngredients(userId);
-    this.props.fetchIngredients(userId);
-  }
+  const handleDelete = id => {
+    let userId = props.id;
+    props.deleteIngredient(id); // updateIngredients(currentIngredients = props.ingredients)
 
-  render() {
-    let {
-      ingredients
-    } = this.props;
-    console.log("rendering...", this.props);
+    props.fetchIngredients(parseInt(userId));
+    props.fetchIngredients(parseInt(userId));
+  };
+
+  let {
+    ingredients
+  } = props;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ingredientsContainer"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    id: "welcome"
+  }, "Welcome, ", props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"], {
+    handleSubmit: handleSubmit
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "singlesContainer"
+  }, ingredients !== undefined ? ingredients.map(ingredient => {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "ingredientsContainer"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-      id: "welcome"
-    }, "Welcome, ", this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddIngredient__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"], {
-      handleSubmit: this.handleSubmit
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "singlesContainer"
-    }, ingredients !== undefined ? ingredients.map(ingredient => {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "singleIngredient",
-        key: ingredient.id,
-        onClick: () => this.handleDelete(ingredient.id)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, ingredient.name));
-    }) : null));
-  }
-
-}
+      className: "singleIngredient",
+      key: ingredient.id,
+      onClick: () => handleDelete(ingredient.id)
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, ingredient.name));
+  }) : null));
+};
 
 const mapState = state => {
   return {
@@ -745,7 +742,6 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   render() {
-    console.log('routes', this.props);
     const {
       isLoggedIn
     } = this.props;
@@ -938,9 +934,8 @@ const fetchIngredients = id => async dispatch => {
       query: `{user(id:${id}){ingredients{name, id}}}`
     });
     let ingredients = data.data.user.ingredients;
-    dispatch(getIngredients(ingredients)); // NEED TO ADD ERROR HANDLING
+    dispatch(getIngredients(ingredients));
   } catch (authError) {
-    // console.log(authError)
     return dispatch(getIngredients({
       error: authError
     }));
@@ -953,9 +948,7 @@ const newIngredient = (userId, name, quantity) => async dispatch => {
     } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`/api`, {
       query: `mutation{addIngredient(userId:${userId}, name:"${name}"){name, id}}`
     });
-    console.log(">>>>******>>>>>>>", data);
   } catch (authError) {
-    // console.log(authError)
     return dispatch(getIngredients({
       error: authError
     }));
@@ -990,8 +983,6 @@ let defaultState = {};
       };
 
     case REMOVE_INGREDIENT:
-      console.log(defaultState);
-
       if (defaultState.ingredient.ingredients.find(item => item.id === action.id)) {
         return [...defaultState.ingredient.ingredients.filter(item => item.id !== action.id)];
       } else {
@@ -1040,16 +1031,12 @@ const fetchRecipes = ingredients => async dispatch => {
   let names = ingredients.map(ingredient => {
     return ingredient.name;
   });
-  console.log(names);
   let strIngredients = names.join(",");
-  console.log(strIngredients);
-  console.log('API KEY', Spoonacular_API_KEY);
 
   try {
     let {
       data
     } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${Spoonacular_API_KEY}&ingredients=${strIngredients}`);
-    console.log("SPOONACULAR>>> initial return", data);
     let links = data.map(async recipe => {
       let link = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${Spoonacular_API_KEY}`);
       return link;
@@ -1072,7 +1059,6 @@ const fetchRecipes = ingredients => async dispatch => {
       recipeInfo[i].sourceUrl = sourceUrls[i];
     }
 
-    console.log("SPOONACULAR>>>>>>> source links return", recipeInfo);
     dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({
@@ -72087,7 +72073,7 @@ self.addEventListener('activate', event => {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-const Spoonacular_API_KEY = "f96e8b1767184234823774d3eec88e6d";
+const Spoonacular_API_KEY = "6179289d329d414f93d9e3ba222d8152";
 module.exports = Spoonacular_API_KEY;
 
 /***/ }),

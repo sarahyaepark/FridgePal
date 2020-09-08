@@ -8,10 +8,11 @@ _Your virtual "fridge" to keep track of your groceries and give you recipes base
 ## DEMO
 
 * Login or Sign up with an email and password
-<img width="300px" height="650px" src="./public/Demogif.gif">
+<img width="300px" height="650px" src="./public/logIn.gif">
+
 * Enter or delete the ingredients in your fridge in the "My Fridge" tab
 * The "Recipes" tab will automatically generate results based off the current fridge
-<img width="300px" height="650px" src="./public/couriergif.gif">
+<img width="300px" height="650px" src="./public/appDemo.gif">
 
 
 ## Get Cookin!

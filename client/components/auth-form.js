@@ -10,7 +10,6 @@ import Form from "react-bootstrap/Form";
 
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-  console.log(props);
   return (
     <div className="authForm">
       <br />

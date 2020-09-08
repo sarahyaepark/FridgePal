@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { AddIngredient } from "./AddIngredient";
 import {
@@ -7,34 +7,33 @@ import {
   deleteIngredient,
 } from "../store/ingredient";
 
+export const UserHome = (props) => {
+  // let [currentIngredients, updateIngredients] = useState(0)
+  useEffect(() => {
+    props.fetchIngredients(parseInt(props.id))
+  }, [])
 
-export class UserHome extends React.Component {
-  componentDidMount() {
-    this.props.fetchIngredients(parseInt(this.props.id));
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    let userId = this.props.id;
+    let userId = props.id;
     let name = event.target.ingredientName.value;
-    this.props.newIngredient(userId, name);
-    this.props.fetchIngredients(userId);
-    this.props.fetchIngredients(userId);
+    props.newIngredient(userId, name);
+    props.fetchIngredients(parseInt(userId))
+    props.fetchIngredients(parseInt(userId))
   }
-  handleDelete(id) {
-    console.log("deleting ", id);
-    let userId = this.props.id;
-    this.props.deleteIngredient(id)
-    this.props.fetchIngredients(userId);
-    this.props.fetchIngredients(userId);
+  const handleDelete = (id) => {
+    let userId = props.id;
+    props.deleteIngredient(id)
+    // updateIngredients(currentIngredients = props.ingredients)
+    props.fetchIngredients(parseInt(userId))
+    props.fetchIngredients(parseInt(userId))
   }
-  render() {
-    let { ingredients } = this.props;
-    console.log("rendering...", this.props);
-    return (
-      <div className="ingredientsContainer">
-        <h3 id="welcome">Welcome, {this.props.name}</h3>
-        <AddIngredient handleSubmit={this.handleSubmit} />
+  let { ingredients } = props;
+  return (
+    <div className="ingredientsContainer">
+      {/* {updateIngredients(currentIngredients = props.ingredients)} */}
+        <h3 id="welcome">Welcome, {props.name}</h3>
+        <AddIngredient handleSubmit={handleSubmit} />
         <br />
         <div className="singlesContainer">
           {ingredients !== undefined
@@ -43,7 +42,7 @@ export class UserHome extends React.Component {
                   <div
                     className="singleIngredient"
                     key={ingredient.id}
-                    onClick={() => this.handleDelete(ingredient.id)}
+                    onClick={() => handleDelete(ingredient.id)}
                   >
                     <p>{ingredient.name}</p>
                   </div>
@@ -52,8 +51,7 @@ export class UserHome extends React.Component {
             : null}
         </div>
       </div>
-    );
-  }
+  )
 }
 
 const mapState = (state) => {
