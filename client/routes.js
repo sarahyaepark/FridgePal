@@ -13,7 +13,6 @@ class Routes extends Component {
   }
 
   render() {
-    console.log('routes', this.props)
     const {isLoggedIn} = this.props
     return (
       <div>

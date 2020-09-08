@@ -18,14 +18,11 @@ export const fetchRecipes = (ingredients) => async (dispatch) => {
   let names = ingredients.map((ingredient) => {
     return ingredient.name;
   });
-  console.log(names);
   let strIngredients = names.join(",");
-  console.log(strIngredients);
   try {
     let { data } = await axios.get(
       `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${Spoonacular_API_KEY}&ingredients=${strIngredients}`
     );
-    console.log("SPOONACULAR>>> initial return", data);
     let links = data.map(async (recipe) => {
       let link = await axios.get(
         `https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${Spoonacular_API_KEY}`
@@ -48,7 +45,6 @@ export const fetchRecipes = (ingredients) => async (dispatch) => {
     for (let i = 0; i < recipeInfo.length; i++) {
       recipeInfo[i].sourceUrl = sourceUrls[i];
     }
-    console.log("SPOONACULAR>>>>>>> source links return", recipeInfo);
     dispatch(getRecipes(recipeInfo));
   } catch (authError) {
     return dispatch(getRecipes({ error: authError }));
